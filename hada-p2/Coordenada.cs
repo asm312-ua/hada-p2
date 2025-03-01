@@ -10,6 +10,7 @@ namespace Hada
     {
         public int Fila { get; }
         public int Columna { get; }
+
         public Coordenada(){
             Fila = 0;
             Columna = 0;
@@ -19,6 +20,7 @@ namespace Hada
             Fila = fila;
             Columna = columna;
         }
+
         public Coordenada(string fila, string columna) {
             int f = Int32.Parse(fila);
             int c = Int32.Parse(columna);
@@ -26,14 +28,16 @@ namespace Hada
             Fila = f;
             Columna = c;
         }
+
+        public Coordenada(Coordenada c){
+            Fila = c.Fila;
+            Columna = c.Columna;
+        }
+
         public static void entre1y9(int x, int y) {
             if (x < 0 && x > 9 && y < 0 && y > 9){
                 throw new Exception();
             }
-        }
-        public Coordenada(Coordenada c){
-            Fila = c.Fila;
-            Columna = c.Columna;
         }
 
         override
