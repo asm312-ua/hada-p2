@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hada;
 
-namespace hada_p2
+namespace Hada
 {
     internal class Barco
     {
         //Quitar los comentarios a los objetos cuando este hecha la clase evento
-        //event EventHandler<TocadoArgs> eventoTocado;
-        //event EventHandler<HundidoArgs> eventoHundido;
+        event EventHandler<TocadoArgs> eventoTocado;
+        event EventHandler<HundidoArgs> eventoHundido;
         public Dictionary<Coordenada, string> CoordenadasBarco { get; private set; }
         public string Nombre { get; }
         public int NumDanyos { get; private set; }
@@ -68,11 +67,11 @@ namespace hada_p2
         public void disparo(Coordenada c){
             if (CoordenadasBarco.TryGetValue(c, out string etiqueta)){
                 CoordenadasBarco[c] = etiqueta + "_T";
-                //eventoTocado?.Invoke(this, new TocadoArgs(Nombre, c.ToString()));
+                eventoTocado?.Invoke(this, new TocadoArgs(Nombre, c.ToString()));
                 NumDanyos++;
 
-                if (hundido()){//eventoHundido?.Invoke(this, new HundidoArgs(Nombre));}
-                }
+                if (hundido()) {eventoHundido?.Invoke(this, new HundidoArgs(Nombre));}
+                Console.WriteLine("");//añadimos el \n
             }
 
         }
