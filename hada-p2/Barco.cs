@@ -8,7 +8,8 @@ namespace Hada
 {
     internal class Barco
     {
-        //Quitar los comentarios a los objetos cuando este hecha la clase evento
+        //TODO Revisar lo del hash code para la busqueda en el diccionario, actualmente no se usa, usamos foreach
+        //TODO Preguntar sobre la inicializacion de los eventos de barco en la clase Tablero
         event EventHandler<TocadoArgs> eventoTocado;
         event EventHandler<HundidoArgs> eventoHundido;
         public Dictionary<Coordenada, string> CoordenadasBarco { get; private set; }
@@ -16,7 +17,7 @@ namespace Hada
         public int NumDanyos { get; private set; }
 
         public Barco(string nombre, int longitud, char orientacion, Coordenada coordenadaInicio)
-        {//Pensar en lanzar una excepcion si la suma y resta de la longitud a la posicion del barco hacen que se salga del tablero
+        {//TODO Pensar si lanzar una excepcion si la suma y resta de la longitud a la posicion del barco hacen que se salga del tablero
             Nombre = nombre;
             NumDanyos = 0;
             CoordenadasBarco = new Dictionary<Coordenada, string>();
@@ -73,17 +74,14 @@ namespace Hada
                 if (hundido()) {eventoHundido?.Invoke(this, new HundidoArgs(Nombre));}
                 Console.WriteLine("");//añadimos el \n
             }
-
         }
         public bool hundido(){
-            int auxContador = 0;
             foreach (var parteBarco in CoordenadasBarco)
             {
-                if(parteBarco.Value.EndsWith("_T"))
-                    auxContador++;
+                if(!parteBarco.Value.EndsWith("_T"))
+                    return false;
             }
-            if(auxContador == CoordenadasBarco.Count) { return true; }
-            return false;
+            return true;
         }
         override
         public string ToString(){
