@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Hada
 {
     internal class Tablero
-    {
+    { 
         public event EventHandler<EventArgs> eventoFinPartida;
 
         public int TamTablero { get; }
@@ -56,9 +56,9 @@ namespace Hada
                     {
                         foreach(var coordenadaBarco in barco.CoordenadasBarco)
                         {
-                            if (coordenadaBarco.Key.Fila==i && coordenadaBarco.Key.Columna==j) //i representan las filas de casilla y j las columnas de casilla 
+                            if (coordenadaBarco.Key.Equals(casilla)) 
                             {
-                                casillasTablero.Add(casilla, barco.Nombre);
+                                casillasTablero.Add(new Coordenada(casilla), barco.Nombre);
                                 hayUnBarco = true;
                                 break;
                             }
@@ -76,9 +76,9 @@ namespace Hada
         {
             Coordenada coordenadaTocada = (Coordenada) sender;//TODO revisar seguramente este mal esta relacion
             casillasTablero[coordenadaTocada] = e.Nombre + "_T";
-            if (!coordenadasTocadas.Contains(coordenadaTocada))
+            if (!coordenadasTocadas.Contains(coordenadaTocada)) //No lo he comprobado pero posíblemente esta línea no funciona porque Contains comprueba que el objeto está en coordenadasTocadas, no si hay un objeto con fila y columna idénticas
             {
-                coordenadasTocadas.Add(coordenadaTocada);
+                coordenadasTocadas.Add(new Coordenada(coordenadaTocada));
             }
             Console.WriteLine($"TABLERO: Barco {e.Nombre} tocado en Coordenada: [{e.Coordenadas}]");
         }
@@ -97,12 +97,17 @@ namespace Hada
         {
             if ((c.Columna >= 0 && c.Columna <= TamTablero) && (c.Fila <= TamTablero && c.Fila >= 0))
             {
+                coordenadasDisparadas.Add(new Coordenada(c));
+
                 foreach (var barco in barcos)
                 {
-                    if (barco.CoordenadasBarco.ContainsKey(c))
+                    foreach (var coordenada in barco.CoordenadasBarco)
                     {
-                        coordenadasDisparadas.Add(c);
-                        barco.disparo(c);
+                        if (c.Equals(coordenada))
+                        {
+                            coordenadasTocadas.Add(new Coordenada(c));
+                            barco.disparo(c);
+                        }
                     }
                 }
             }

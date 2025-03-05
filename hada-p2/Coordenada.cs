@@ -10,6 +10,7 @@ namespace Hada
     {
         private int _fila;
         private int _columna;
+
         public int Fila 
         {
             get { return _fila; }
