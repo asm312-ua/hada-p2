@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,17 +11,21 @@ namespace Hada
     {
         //TODO Revisar lo del hash code para la busqueda en el diccionario, actualmente no se usa, usamos foreach
         //TODO Preguntar sobre la inicializacion de los eventos de barco en la clase Tablero
-        event EventHandler<TocadoArgs> eventoTocado;
-        event EventHandler<HundidoArgs> eventoHundido;
+        public event EventHandler<TocadoEventArgs> eventoTocado;
+        public event EventHandler<HundidoEventArgs> eventoHundido;
         public Dictionary<Coordenada, string> CoordenadasBarco { get; private set; }
         public string Nombre { get; }
         public int NumDanyos { get; private set; }
+        private TocadoArgs tocadoArgs;
+        private HundidoArgs hundidoArgs;
 
         public Barco(string nombre, int longitud, char orientacion, Coordenada coordenadaInicio)
         {//TODO Pensar si lanzar una excepcion si la suma y resta de la longitud a la posicion del barco hacen que se salga del tablero
             Nombre = nombre;
             NumDanyos = 0;
             CoordenadasBarco = new Dictionary<Coordenada, string>();
+            tocadoArgs = new TocadoArgs();
+            hundidoArgs = new HundidoArgs();
 
             CoordenadasBarco.Add(coordenadaInicio, Nombre);
             switch (orientacion)
@@ -68,11 +73,11 @@ namespace Hada
         public void disparo(Coordenada c){
             if (CoordenadasBarco.TryGetValue(c, out string etiqueta)){
                 CoordenadasBarco[c] = etiqueta + "_T";
-                eventoTocado?.Invoke(this, new TocadoArgs(Nombre, c.ToString()));
+                tocadoArgs.TocarBarco(CoordenadasBarco[c], c.ToString());
+                
                 NumDanyos++;
 
-                if (hundido()) {eventoHundido?.Invoke(this, new HundidoArgs(Nombre));}
-                Console.WriteLine("");//añadimos el \n
+                if (hundido()) { hundidoArgs.HundirBarco(CoordenadasBarco[c]);}
             }
         }
         public bool hundido(){
