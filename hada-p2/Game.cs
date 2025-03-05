@@ -38,20 +38,27 @@ namespace Hada
             Coordenada coordenadaPedida = new Coordenada();
             while (true) 
             {
-                Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir");
+                Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                 string respuesta = Console.ReadLine();
                 if (respuesta[0] == 's' || respuesta[0] == 'S') 
                 {
-                    cuandoEventoFinPartida(EventArgs );
+//                    cuandoEventoFinPartida(EventArgs );
+                    break; //Provisional
                 }
-                while (!Int32.TryParse(char.ToString(respuesta[0]),out filaPedida) || respuesta[1]!=',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
+                while (respuesta.Length<3 || !Int32.TryParse(char.ToString(respuesta[0]),out filaPedida) || respuesta[1]!=',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
                 {
-                    Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir");
+                    Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                     respuesta = Console.ReadLine();
                 }
+
                 coordenadaPedida.Columna=columnaPedida;
                 coordenadaPedida.Fila = filaPedida;
                 tablero.Disparar(coordenadaPedida);
+                foreach (var barco in barcos) 
+                {
+                    Console.WriteLine(barco);
+                }
+                Console.WriteLine(tablero);
             }
         }
 
