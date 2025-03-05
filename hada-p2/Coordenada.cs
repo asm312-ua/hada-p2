@@ -8,8 +8,38 @@ namespace Hada
 {
     internal class Coordenada
     {
-        public int Fila { get; }
-        public int Columna { get; }
+        private int _fila;
+        private int _columna;
+        public int Fila 
+        {
+            get { return _fila; }
+            set
+            {
+                if (value < 0 && value > 9)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    _fila = value;
+                }
+            }
+        }
+        public int Columna 
+        {
+            get { return _columna; }
+            set 
+            {
+                if (value < 0 && value > 9)
+                {
+                    throw new Exception();
+                }
+                else 
+                {
+                    _columna = value;
+                }
+            }
+        }
 
         public Coordenada(){
             Fila = 0;
@@ -37,6 +67,22 @@ namespace Hada
         public static void entre1y9(int x, int y) {
             if (x < 0 && x > 9 && y < 0 && y > 9){
                 throw new Exception();
+            }
+        }
+
+        public void fila(int fila) 
+        {
+            if (fila >= 0 || fila < 10) 
+            {
+                Fila = fila;
+            }
+        }
+
+        public void columna(int columna)
+        {
+            if (columna >= 0 || columna < 10)
+            {
+                Columna = columna;
             }
         }
 
