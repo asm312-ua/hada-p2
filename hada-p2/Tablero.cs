@@ -33,7 +33,7 @@ namespace Hada
             barcosEliminados = new List<Barco>();
             casillasTablero = new Dictionary<Coordenada, string>();
 
-            this.barcos = new List<Barco>();
+            this.barcos = new List<Barco>(barcos);
             foreach (var barco in barcos)
             {
                 barco.eventoTocado += cuandoEventoTocado;
@@ -45,27 +45,32 @@ namespace Hada
 
         private void iniciaCasillasTablero()//Revisar la forma de buscar, condicion if y dentro del if
         {
+            bool hayUnBarco;
             for (int i = 0; i < TamTablero; i++)
             {
                 for (int j = 0; j < TamTablero; j++)
                 {
                     Coordenada casilla = new Coordenada(i, j);
-
+                    hayUnBarco = false;
                     foreach (var barco in barcos)
                     {
-                        if (barco.CoordenadasBarco.ContainsKey(casilla))
+                        foreach(var coordenadaBarco in barco.CoordenadasBarco)
                         {
-                            casillasTablero.Add(casilla, barco.Nombre);
+                            if (coordenadaBarco.Key.Fila==i && coordenadaBarco.Key.Columna==j) //i representan las filas de casilla y j las columnas de casilla 
+                            {
+                                casillasTablero.Add(casilla, barco.Nombre);
+                                hayUnBarco = true;
+                                break;
+                            }
                         }
-                        else
-                        {
-                            casillasTablero.Add(casilla, "AGUA");
-                        }
+                    }
+                    if (!hayUnBarco) 
+                    {
+                        casillasTablero.Add(casilla, "AGUA");
                     }
                 }
             }
         }
-
 
         private void cuandoEventoTocado(object sender, TocadoEventArgs e)
         {
@@ -116,6 +121,7 @@ namespace Hada
                 if (fila < TamTablero)
                 {
                     tableroDibujado += $"[{casillas.Value}]";
+                    fila++;
                 }
                 else
                 {
@@ -131,22 +137,22 @@ namespace Hada
             string outputInformacionBarcos = "";
             foreach (var barco in barcos)
             {
-                outputInformacionBarcos += $"{barco.ToString()} \r\n";//Aparentemente se podria poner como: $"{barco} \r\n"
+                outputInformacionBarcos += $"{barco.ToString()} \n";//Aparentemente se podria poner como: $"{barco} \r\n"
             }
 
-            outputInformacionBarcos += "Coordenadas disparadas:";
+            outputInformacionBarcos += "\n Coordenadas disparadas:";
             foreach (var coordenada in coordenadasDisparadas)
             {
                 outputInformacionBarcos += $"{coordenada.ToString()} ";
             }
 
-            outputInformacionBarcos += " \r\n Coordenadas disparadas: ";
+            outputInformacionBarcos += " \n Coordenadas tocadas: ";
             foreach (var coordenada in coordenadasTocadas)
             {
                 outputInformacionBarcos += $"{coordenada.ToString()} ";
             }
-            outputInformacionBarcos += " \r\n CASILLAS TABLERO \r\n -------";
-            outputInformacionBarcos += $"\r\n {DibujarTablero()}";
+            outputInformacionBarcos += " \nCASILLAS TABLERO \n-------";
+            outputInformacionBarcos += $"\n{DibujarTablero()}";
 
             return outputInformacionBarcos;
         }

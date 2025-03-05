@@ -18,13 +18,9 @@ namespace Hada
         }
         private void gameLoop() 
         {
-            Coordenada coordenadaThor = new Coordenada(0, 0);
-            Coordenada coordenadaLoki = new Coordenada(1, 2);
-            Coordenada coordenadaMaya = new Coordenada(3, 1);
-
-            Barco Thor = new Barco("THOR",1,'h',coordenadaThor);
-            Barco Loki = new Barco("LOKI",2,'h',coordenadaLoki); 
-            Barco Maya = new Barco("MAYA",3,'v',coordenadaMaya);
+            Barco Thor = new Barco("THOR",1,'h', new Coordenada(0, 0));
+            Barco Loki = new Barco("LOKI",2,'h', new Coordenada(1, 2)); 
+            Barco Maya = new Barco("MAYA",3,'v', new Coordenada(3, 1));
 
             List<Barco> barcos = new List<Barco>();
             barcos.Add(Thor);
@@ -36,11 +32,12 @@ namespace Hada
             int filaPedida;
             int columnaPedida;
             Coordenada coordenadaPedida = new Coordenada();
+            tablero.eventoFinPartida += cuandoEventoFinPartida; //sin importar si cambia el evento, esto debería funcionar
             while (true) 
             {
                 Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                 string respuesta = Console.ReadLine();
-                if (respuesta[0] == 's' || respuesta[0] == 'S') 
+                if (respuesta[0] == 's' || respuesta[0] == 'S' || finPartida)
                 {
 //                    cuandoEventoFinPartida(EventArgs );
                     break; //Provisional
@@ -54,15 +51,11 @@ namespace Hada
                 coordenadaPedida.Columna=columnaPedida;
                 coordenadaPedida.Fila = filaPedida;
                 tablero.Disparar(coordenadaPedida);
-                foreach (var barco in barcos) 
-                {
-                    Console.WriteLine(barco);
-                }
                 Console.WriteLine(tablero);
             }
         }
 
-        private void cuandoEventoFinPartida(EventArgs finDePartida) {
+        private void cuandoEventoFinPartida(object algo,EventArgs finDePartida) { //Si cambia el delegado del evento eventoFinPartida, cambiar parámetros
             Console.WriteLine("PARTIDA FINALIZADA!!");
             finPartida = true;
         }
