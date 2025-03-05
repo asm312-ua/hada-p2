@@ -151,7 +151,7 @@ namespace Hada
             {
                 outputInformacionBarcos += $"{coordenada.ToString()} ";
             }
-            outputInformacionBarcos += " \nCASILLAS TABLERO \n-------";
+            outputInformacionBarcos += " \n\nCASILLAS TABLERO \n-------";
             outputInformacionBarcos += $"\n{DibujarTablero()}";
 
             return outputInformacionBarcos;
