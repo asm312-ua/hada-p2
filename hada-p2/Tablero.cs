@@ -66,6 +66,7 @@ namespace Hada
             }
         }
 
+
         private void cuandoEventoTocado(object sender, TocadoEventArgs e)
         {
             Coordenada coordenadaTocada = (Coordenada) sender;//TODO revisar seguramente este mal esta relacion

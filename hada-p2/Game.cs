@@ -11,6 +11,11 @@ namespace Hada
     {
         private bool finPartida;
 
+        public Game() 
+        {
+            finPartida = false;
+            this.gameLoop();
+        }
         private void gameLoop() 
         {
             Coordenada coordenadaThor = new Coordenada(0, 0);
@@ -35,6 +40,10 @@ namespace Hada
             {
                 Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir");
                 string respuesta = Console.ReadLine();
+                if (respuesta[0] == 's' || respuesta[0] == 'S') 
+                {
+                    cuandoEventoFinPartida(EventArgs );
+                }
                 while (!Int32.TryParse(char.ToString(respuesta[0]),out filaPedida) || respuesta[1]!=',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
                 {
                     Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir");
@@ -42,8 +51,13 @@ namespace Hada
                 }
                 coordenadaPedida.Columna=columnaPedida;
                 coordenadaPedida.Fila = filaPedida;
-
+                tablero.Disparar(coordenadaPedida);
             }
+        }
+
+        private void cuandoEventoFinPartida(EventArgs finDePartida) {
+            Console.WriteLine("PARTIDA FINALIZADA!!");
+            finPartida = true;
         }
     }
 }
