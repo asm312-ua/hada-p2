@@ -104,7 +104,13 @@ namespace Hada
         }
         override
         public bool Equals(object objeto) {
-            return false;
+            if (objeto == null || GetType() != objeto.GetType())
+            {
+                return false;
+            }
+
+            Coordenada other = (Coordenada)objeto;
+            return Fila == other.Fila && Columna == other.Columna;
         }
 
     }

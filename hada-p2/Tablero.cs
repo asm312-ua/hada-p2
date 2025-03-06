@@ -54,14 +54,10 @@ namespace Hada
                     hayUnBarco = false;
                     foreach (var barco in barcos)
                     {
-                        foreach(var coordenadaBarco in barco.CoordenadasBarco)
+                        if (barco.CoordenadasBarco.ContainsKey(casilla))
                         {
-                            if (coordenadaBarco.Key.Equals(casilla)) 
-                            {
-                                casillasTablero.Add(new Coordenada(casilla), barco.Nombre);
-                                hayUnBarco = true;
-                                break;
-                            }
+                            casillasTablero.Add(casilla, barco.Nombre);
+                            hayUnBarco = true;
                         }
                     }
                     if (!hayUnBarco) 

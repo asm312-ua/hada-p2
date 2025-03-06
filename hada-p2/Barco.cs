@@ -9,7 +9,6 @@ namespace Hada
 {
     internal class Barco
     {
-        //TODO Revisar lo del hash code para la busqueda en el diccionario, actualmente no se usa, usamos foreach
         //TODO Preguntar sobre la inicializacion de los eventos de barco en la clase Tablero
         public event EventHandler<TocadoEventArgs> eventoTocado;
         public event EventHandler<HundidoEventArgs> eventoHundido;
