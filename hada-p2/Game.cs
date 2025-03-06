@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,34 +17,76 @@ namespace Hada
             finPartida = false;
             this.gameLoop();
         }
+
+        private bool ColocarBarco(Barco barcoAColocar, List<Barco> barcosHechos)
+        {
+            foreach (var barco in barcosHechos)
+            {
+                foreach (var coordenada in barcoAColocar.CoordenadasBarco)
+                {
+                    if (barco.CoordenadasBarco.ContainsKey(coordenada.Key))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            barcosHechos.Add(barcoAColocar);
+            return true;
+        }
         private void gameLoop() 
         {
-            Barco Thor = new Barco("THOR",1,'h', new Coordenada(0, 0));
-            Barco Loki = new Barco("LOKI",2,'h', new Coordenada(1, 2)); 
-            Barco Maya = new Barco("MAYA",3,'v', new Coordenada(3, 1));
+            List<string> nombres = new List<string>();
 
+            nombres.Add("THOR");
+            nombres.Add("LOKI");
+            nombres.Add("MAYA");
+            nombres.Add("MARY");
+            nombres.Add("WILLY");
+
+            Console.WriteLine("Introduce el tamaño del tablero");
+            int tamTablero = Int32.Parse(Console.ReadLine());
             List<Barco> barcos = new List<Barco>();
-            barcos.Add(Thor);
-            barcos.Add(Loki);
-            barcos.Add(Maya);
+            Random rnd = new Random();
+            int i = 1;
+            while (i<=3)//i<=3 represena la cantidad de barcos que se van a crear
+            {
+                int fila = (rnd.Next(0, tamTablero-i+1));
+                int columna = (rnd.Next(0, tamTablero-i+1));
+                char direccion;
+                if (rnd.Next(0, 2) == 1)
+                {
+                    direccion = 'v';
+                }
+                else
+                {
+                    direccion = 'h';
+                }
+                if (ColocarBarco(new Barco(nombres[i-1], i, direccion, new Coordenada(fila, columna)), barcos))
+                {
+                    i++;
+                }
+            }
 
-            Tablero tablero = new Tablero(4,barcos);
 
+            Tablero tablero = new Tablero(tamTablero, barcos);
+            
             int filaPedida;
             int columnaPedida;
             Coordenada coordenadaPedida = new Coordenada();
             tablero.eventoFinPartida += cuandoEventoFinPartida; //sin importar si cambia el evento, esto debería funcionar
+            Console.WriteLine(tablero);
             while (true) 
             {
                 Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                 string respuesta = Console.ReadLine();
-                if (respuesta[0] == 's' || respuesta[0] == 'S' || finPartida)
-                {
-//                    cuandoEventoFinPartida(EventArgs );
-                    break; //Provisional
-                }
                 while (respuesta.Length<3 || !Int32.TryParse(char.ToString(respuesta[0]),out filaPedida) || respuesta[1]!=',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
                 {
+                    if (!(respuesta == "") && (respuesta[0] == 's' || respuesta[0] == 'S' || finPartida))
+                    {
+                        //                    cuandoEventoFinPartida(EventArgs );
+                        return; //Provisional
+                    }
                     Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                     respuesta = Console.ReadLine();
                 }
@@ -51,7 +94,6 @@ namespace Hada
                 coordenadaPedida.Columna=columnaPedida;
                 coordenadaPedida.Fila = filaPedida;
                 tablero.Disparar(coordenadaPedida);
-                Console.WriteLine(tablero);
             }
         }
 
