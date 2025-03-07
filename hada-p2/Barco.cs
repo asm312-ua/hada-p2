@@ -23,21 +23,20 @@ namespace Hada
             NumDanyos = 0;
             CoordenadasBarco = new Dictionary<Coordenada, string>();
 
-            CoordenadasBarco.Add(coordenadaInicio, Nombre);
             switch (orientacion)
             {
                 case 'v':
-                    if (coordenadaInicio.Columna + longitud > 9) //Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Columna + longitud > TamMaxTablero) //Solo funca cuando el tamaño del tablero es 9
                     {//Si el barco se saliera del tablero lo ponemos inversamente [0,9] [0,8] [0,7] [0,6] longitud 4
-                        for (int i = 1; i < longitud; i++)
+                        for (int i = 0; i < longitud; i++)
                         {
-                            Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, TamMaxTablero - i);
+                            Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, TamMaxTablero - i - 1);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
                         }
                     }
                     else
                     {
-                        for (int i = 1; i < longitud; i++)
+                        for (int i = 0; i < longitud; i++)
                         {// En caso contrario lo ponemos normal [0,3] [0,4] [0,5] [0,6] longitud 4
                             Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, coordenadaInicio.Columna + i);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
@@ -46,17 +45,17 @@ namespace Hada
                     break;
 
                 case 'h':
-                    if (coordenadaInicio.Fila + longitud > 9)//Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Fila + longitud > TamMaxTablero)//Solo funca cuando el tamaño del tablero es 9
                     {
-                        for (int i = 1; i < longitud; i++)
+                        for (int i = 0; i < longitud; i++)
                         {
-                            Coordenada nuevaCoordenada = new Coordenada(TamMaxTablero - i, coordenadaInicio.Columna);
+                            Coordenada nuevaCoordenada = new Coordenada(TamMaxTablero - i - 1, coordenadaInicio.Columna);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
                         }
                     }
                     else
                     {
-                        for (int i = 1; i < longitud; i++)
+                        for (int i = 0; i < longitud; i++)
                         {
                             Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila + i, coordenadaInicio.Columna);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
