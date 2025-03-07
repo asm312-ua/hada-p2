@@ -45,15 +45,16 @@ namespace Hada
             nombres.Add("MARY");
             nombres.Add("WILLY");
 
-            Console.WriteLine("Introduce el tamaño del tablero");
-            tamTablero = Int32.Parse(Console.ReadLine());
-            List<Barco> barcos = new List<Barco>();
+            do {
+                Console.WriteLine("Introduce el tamaño del tablero");
+            } while (!Int32.TryParse(Console.ReadLine(), out tamTablero) || tamTablero<4 || tamTablero>9);
+            List < Barco > barcos = new List<Barco>();
             Random rnd = new Random();
             int i = 1;
             while (i<=3)//i<=3 represena la cantidad de barcos que se van a crear
             {
-                int fila = (rnd.Next(0, tamTablero-i+1));
-                int columna = (rnd.Next(0, tamTablero-i+1));
+                int fila = (rnd.Next(0, tamTablero));
+                int columna = (rnd.Next(0, tamTablero));
                 char direccion;
                 if (rnd.Next(0, 2) == 1)
                 {
@@ -79,18 +80,24 @@ namespace Hada
             while (true) 
             {
                 Console.WriteLine(tablero);
-                Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
-                string respuesta = Console.ReadLine();
-                while (respuesta.Length<3 || !Int32.TryParse(char.ToString(respuesta[0]),out filaPedida) || respuesta[1]!=',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
+                string respuesta;
+                do
                 {
-                    if (!(respuesta == "") && (respuesta[0] == 's' || respuesta[0] == 'S' || finPartida))
+                    if (finPartida)
                     {
-                        //                    cuandoEventoFinPartida(EventArgs );
-                        return; //Provisional
+                        return;
                     }
                     Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                     respuesta = Console.ReadLine();
-                }
+                    if (!(respuesta == "") && (respuesta[0] == 's' || respuesta[0] == 'S' || finPartida))
+                    {
+                        cuandoEventoFinPartida(this, null);
+                    }
+
+
+
+                } while (respuesta.Length < 3 || !Int32.TryParse(char.ToString(respuesta[0]), out filaPedida) || respuesta[1] != ',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)); //comprueba si las coordenadas se han colocado como se pide
+
                 Console.Clear();
                 coordenadaPedida.Columna=columnaPedida;
                 coordenadaPedida.Fila = filaPedida;
