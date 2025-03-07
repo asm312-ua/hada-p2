@@ -6,4 +6,4 @@ Mejoras adicionales que hemos metido a la práctica:
 - Puedes crear un tablero de tamaño infinito, pero realmente ese tamaño está limitado por la cantidad de nombres de los barcos, 
   puesto que para ciertos valores de tamaño de tablero podrían generarse más barcos que nombres tiene el programa, pero esos casos están comprobados
 
-Pd: Hemos perdido los tags por un error al final
+Pd: Hemos perdido los tags por no haberlas subido, y al sincronizar el git con el github las hemos perdido
