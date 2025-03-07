@@ -26,7 +26,7 @@ namespace Hada
             switch (orientacion)
             {
                 case 'v':
-                    if (coordenadaInicio.Columna + longitud > TamMaxTablero) //Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Columna + longitud > TamMaxTablero) 
                     {//Si el barco se saliera del tablero lo ponemos inversamente [0,9] [0,8] [0,7] [0,6] longitud 4
                         for (int i = 0; i < longitud; i++)
                         {
@@ -45,7 +45,7 @@ namespace Hada
                     break;
 
                 case 'h':
-                    if (coordenadaInicio.Fila + longitud > TamMaxTablero)//Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Fila + longitud > TamMaxTablero)
                     {
                         for (int i = 0; i < longitud; i++)
                         {

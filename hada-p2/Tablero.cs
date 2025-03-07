@@ -44,7 +44,7 @@ namespace Hada
             iniciaCasillasTablero();
         }
 
-        private void iniciaCasillasTablero()//Revisar la forma de buscar, condicion if y dentro del if
+        private void iniciaCasillasTablero()
         {
             bool hayUnBarco;
             for (int i = 0; i < TamTablero; i++)
@@ -72,7 +72,7 @@ namespace Hada
         private void cuandoEventoTocado(object sender, TocadoEventArgs e)
         {
             casillasTablero[e.CoordenadaImpacto] = e.Nombre + "_T";
-            if (!coordenadasTocadas.Contains(e.CoordenadaImpacto)) //No lo he comprobado pero posíblemente esta línea no funciona porque Contains comprueba que el objeto está en coordenadasTocadas, no si hay un objeto con fila y columna idénticas
+            if (!coordenadasTocadas.Contains(e.CoordenadaImpacto)) 
             {
                 coordenadasTocadas.Add(new Coordenada(e.CoordenadaImpacto));
             }
@@ -81,7 +81,7 @@ namespace Hada
         private void cuandoEventoHundido(object sender, HundidoEventArgs e)
         {
             Console.WriteLine($"TABLERO: Barco {e.Nombre} hundido!!");
-            Barco barcoHundido = (Barco) sender;//TODO revisar seguramente este mal esta relacion
+            Barco barcoHundido = (Barco) sender;
             barcosEliminados.Add(barcoHundido);
             if (barcosEliminados.Count == barcos.Count)
             {
@@ -146,7 +146,7 @@ namespace Hada
             string outputInformacionBarcos = "";
             foreach (var barco in barcos)
             {
-                outputInformacionBarcos += $"{barco.ToString()} \n";//Aparentemente se podria poner como: $"{barco} \r\n"
+                outputInformacionBarcos += $"{barco.ToString()} \n";
             }
 
             outputInformacionBarcos += "\n Coordenadas disparadas:";

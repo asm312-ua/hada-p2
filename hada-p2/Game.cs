@@ -76,7 +76,7 @@ namespace Hada
             int filaPedida;
             int columnaPedida;
             Coordenada coordenadaPedida = new Coordenada();
-            tablero.eventoFinPartida += cuandoEventoFinPartida; //sin importar si cambia el evento, esto debería funcionar
+            tablero.eventoFinPartida += cuandoEventoFinPartida; 
             while (true) 
             {
                 Console.WriteLine(tablero);
@@ -105,7 +105,7 @@ namespace Hada
             }
         }
 
-        private void cuandoEventoFinPartida(object algo,EventArgs finDePartida) { //Si cambia el delegado del evento eventoFinPartida, cambiar parámetros
+        private void cuandoEventoFinPartida(object algo,EventArgs finDePartida) { 
             Console.WriteLine("PARTIDA FINALIZADA!!");
             finPartida = true;
         }
