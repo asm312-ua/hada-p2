@@ -10,7 +10,6 @@ namespace Hada
     internal class Barco
     {
         //TODO Preguntar sobre la inicializacion de los eventos de barco en la clase Tablero
-        private int TamMaxTablero = Game.tamTablero;
         public event EventHandler<TocadoEventArgs> eventoTocado;
         public event EventHandler<HundidoEventArgs> eventoHundido;
         public Dictionary<Coordenada, string> CoordenadasBarco { get; private set; }
@@ -27,11 +26,11 @@ namespace Hada
             switch (orientacion)
             {
                 case 'v':
-                    if (coordenadaInicio.Columna + longitud > 9) //Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Columna + longitud > Game.tamTablero) //Solo funca cuando el tamaño del tablero es 9
                     {//Si el barco se saliera del tablero lo ponemos inversamente [0,9] [0,8] [0,7] [0,6] longitud 4
                         for (int i = 1; i < longitud; i++)
                         {
-                            Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, TamMaxTablero - i);
+                            Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, Game.tamTablero - i);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
                         }
                     }
@@ -46,11 +45,11 @@ namespace Hada
                     break;
 
                 case 'h':
-                    if (coordenadaInicio.Fila + longitud > 9)//Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Fila + longitud > Game.tamTablero)//Solo funca cuando el tamaño del tablero es 9
                     {
                         for (int i = 1; i < longitud; i++)
                         {
-                            Coordenada nuevaCoordenada = new Coordenada(TamMaxTablero - i, coordenadaInicio.Columna);
+                            Coordenada nuevaCoordenada = new Coordenada(Game.tamTablero - i, coordenadaInicio.Columna);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
                         }
                     }

@@ -20,7 +20,7 @@ namespace Hada
 
         public Tablero(int tamTablero, List<Barco> barcos)
         {
-            if (tamTablero >= 4 && tamTablero <= 9)
+            if (tamTablero >= Game.tamTableroMin && tamTablero <= Game.tamTableroMax)
             {
                 TamTablero = tamTablero;
             }

@@ -12,6 +12,10 @@ namespace Hada
     {
         private bool finPartida;
         public static int tamTablero = 0;
+        public static int tamTableroMax = 100;
+        public static int tamTableroMin = 4;
+
+
 
         public Game() 
         {
@@ -45,8 +49,17 @@ namespace Hada
             nombres.Add("MARY");
             nombres.Add("WILLY");
 
-            Console.WriteLine("Introduce el tamaño del tablero");
-            tamTablero = Int32.Parse(Console.ReadLine());
+            do
+            {
+                if (tamTablero < tamTableroMin || tamTablero > tamTableroMax)
+                {
+                    Console.WriteLine("Introduce un tamaño de tablero entre 4 y 9");
+                    if (!Int32.TryParse(Console.ReadLine(), out tamTablero))
+                    {
+                        tamTablero = 0;
+                    }
+                }
+            } while (tamTablero < tamTableroMin || tamTablero > tamTableroMax);
             List<Barco> barcos = new List<Barco>();
             Random rnd = new Random();
             int i = 1;
@@ -76,13 +89,15 @@ namespace Hada
             int columnaPedida;
             Coordenada coordenadaPedida = new Coordenada();
             tablero.eventoFinPartida += cuandoEventoFinPartida; //sin importar si cambia el evento, esto debería funcionar
-            while (true) 
+            while (!finPartida) 
             {
                 Console.WriteLine(tablero);
                 Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                 string respuesta = Console.ReadLine();
-                while (respuesta.Length<3 || !Int32.TryParse(char.ToString(respuesta[0]),out filaPedida) || respuesta[1]!=',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
+                var respuestaPartida = respuesta.Split(',');
+                while (respuesta.Length != 2 && !Int32.TryParse(respuestaPartida[0], out int parteIzquierda) && !Int32.TryParse(respuestaPartida[1], out int parteDerecha)) //comprueba si las coordenadas se han colocado como se pide
                 {
+                    
                     if (!(respuesta == "") && (respuesta[0] == 's' || respuesta[0] == 'S' || finPartida))
                     {
                         //                    cuandoEventoFinPartida(EventArgs );
@@ -92,15 +107,18 @@ namespace Hada
                     respuesta = Console.ReadLine();
                 }
                 Console.Clear();
-                coordenadaPedida.Columna=columnaPedida;
-                coordenadaPedida.Fila = filaPedida;
+                coordenadaPedida.Columna= Int32.Parse( respuestaPartida[0]);
+                coordenadaPedida.Fila = Int32.Parse(respuestaPartida[1]);
                 tablero.Disparar(coordenadaPedida);
+                if (finPartida) { Console.WriteLine(tablero); }
             }
         }
 
         private void cuandoEventoFinPartida(object algo,EventArgs finDePartida) { //Si cambia el delegado del evento eventoFinPartida, cambiar parámetros
             Console.WriteLine("PARTIDA FINALIZADA!!");
             finPartida = true;
+            
+
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Hada
             get { return _fila; }
             set
             {
-                if (value < 0 && value > 9)
+                if (value < 0 && value > Game.tamTablero)
                 {
                     throw new Exception();
                 }
@@ -31,7 +31,7 @@ namespace Hada
             get { return _columna; }
             set 
             {
-                if (value < 0 && value > 9)
+                if (value < 0 && value > Game.tamTablero)
                 {
                     throw new Exception();
                 }
@@ -47,7 +47,7 @@ namespace Hada
             Columna = 0;
         }
         public Coordenada(int fila, int columna){
-            entre1y9(fila, columna);
+            entre0ytamTablero(fila, columna);
             Fila = fila;
             Columna = columna;
         }
@@ -55,7 +55,7 @@ namespace Hada
         public Coordenada(string fila, string columna) {
             int f = Int32.Parse(fila);
             int c = Int32.Parse(columna);
-            entre1y9(f, c);
+            entre0ytamTablero(f, c);
             Fila = f;
             Columna = c;
         }
@@ -65,15 +65,15 @@ namespace Hada
             Columna = c.Columna;
         }
 
-        public static void entre1y9(int x, int y) {
-            if (x < 0 && x > 9 && y < 0 && y > 9){
+        public static void entre0ytamTablero(int x, int y) {
+            if (x < 0 && x > Game.tamTablero && y < 0 && y > Game.tamTablero){
                 throw new Exception();
             }
         }
 
         public void fila(int fila) 
         {
-            if (fila >= 0 || fila < 10) 
+            if (fila >= 0 || fila <= Game.tamTablero) 
             {
                 Fila = fila;
             }
@@ -81,7 +81,7 @@ namespace Hada
 
         public void columna(int columna)
         {
-            if (columna >= 0 || columna < 10)
+            if (columna >= 0 || columna <= Game.tamTablero)
             {
                 Columna = columna;
             }
