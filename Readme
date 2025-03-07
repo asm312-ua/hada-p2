@@ -1,0 +1,6 @@
+Mejoras adicionales que hemos metido a la práctica:
+
+- Los barcos se ponen de forma aleatoria en el tablero, comprobando que no se pueda crear 2 barcos en una misma coordenada
+- Aunque por normas de la práctica el tamaño máximo del tablero es 9*9, cambiando el máximo permitido en tablero y 
+
+133*133

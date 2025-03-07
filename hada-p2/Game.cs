@@ -128,9 +128,6 @@ namespace Hada
                     tablero.Disparar(coordenadaPedida);
                     if (finPartida) { Console.WriteLine(tablero); }
                 }
-
-
-
             }
         }
 
