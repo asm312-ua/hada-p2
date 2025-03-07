@@ -70,13 +70,12 @@ namespace Hada
 
         private void cuandoEventoTocado(object sender, TocadoEventArgs e)
         {
-            Coordenada coordenadaTocada = (Coordenada) sender;//TODO revisar seguramente este mal esta relacion
-            casillasTablero[coordenadaTocada] = e.Nombre + "_T";
-            if (!coordenadasTocadas.Contains(coordenadaTocada)) //No lo he comprobado pero posíblemente esta línea no funciona porque Contains comprueba que el objeto está en coordenadasTocadas, no si hay un objeto con fila y columna idénticas
+            casillasTablero[e.CoordenadaImpacto] = e.Nombre + "_T";
+            if (!coordenadasTocadas.Contains(e.CoordenadaImpacto)) //No lo he comprobado pero posíblemente esta línea no funciona porque Contains comprueba que el objeto está en coordenadasTocadas, no si hay un objeto con fila y columna idénticas
             {
-                coordenadasTocadas.Add(new Coordenada(coordenadaTocada));
+                coordenadasTocadas.Add(new Coordenada(e.CoordenadaImpacto));
             }
-            Console.WriteLine($"TABLERO: Barco {e.Nombre} tocado en Coordenada: [{e.Coordenadas}]");
+            Console.WriteLine($"TABLERO: Barco {e.Nombre} tocado en Coordenada: [{e.CoordenadaImpacto}]");
         }
         private void cuandoEventoHundido(object sender, HundidoEventArgs e)
         {
@@ -97,13 +96,10 @@ namespace Hada
 
                 foreach (var barco in barcos)
                 {
-                    foreach (var coordenada in barco.CoordenadasBarco)
+                    if (barco.CoordenadasBarco.ContainsKey(c))
                     {
-                        if (c.Equals(coordenada))
-                        {
-                            coordenadasTocadas.Add(new Coordenada(c));
-                            barco.disparo(c);
-                        }
+                        coordenadasTocadas.Add(new Coordenada(c));
+                        barco.disparo(c);
                     }
                 }
             }

@@ -9,40 +9,21 @@ namespace Hada
     public class TocadoEventArgs : EventArgs
     {
         public string Nombre { get;  set; }
-        public string Coordenadas { get;  set; }
-    }
-
-    public class TocadoArgs
-    {
-        public delegate void TocadoEventHandler(object sender, TocadoEventArgs args);
-        public event TocadoEventHandler Tocado;
-
-        public void TocarBarco(string name, string coordenadas)
+        public Coordenada CoordenadaImpacto { get; set; }
+        public TocadoEventArgs(string nombre, Coordenada coordenadaImpacto)
         {
-            OnTocado(name, coordenadas);
-        }
-
-        protected virtual void OnTocado(string nombre, string coordenadas)
-        {
-            Tocado?.Invoke(this, new TocadoEventArgs() { Nombre = nombre, Coordenadas = coordenadas });
+            this.Nombre = nombre;
+            this.CoordenadaImpacto = coordenadaImpacto;
         }
     }
+
+    
     public class HundidoEventArgs : EventArgs
     {
         public string Nombre { get; set; }
-    }
-
-    public class HundidoArgs
-    {
-        public delegate void HundidoEventHandler(object sender, HundidoEventArgs args);
-        public event HundidoEventHandler Hundido;
-        public void HundirBarco(string name)
+        public HundidoEventArgs(string nombre)
         {
-            OnHundido(name);
-        }
-        protected virtual void OnHundido(string nombre)
-        {
-            Hundido?.Invoke(this, new HundidoEventArgs() { Nombre = nombre });
+            Nombre = nombre;
         }
     }
 

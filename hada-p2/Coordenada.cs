@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hada
 {
-    internal class Coordenada
+    public class Coordenada
     {
         private int _fila;
         private int _columna;
@@ -97,7 +97,7 @@ namespace Hada
             return this.Fila.GetHashCode() ^ this.Columna.GetHashCode();
         }
         public bool Equals(Coordenada coordenada) {
-            if (Fila == coordenada.Fila && Columna == coordenada.Columna) {
+            if (this.Fila == coordenada.Fila && this.Columna == coordenada.Columna) {
                 return true;
             }
             return false;
@@ -110,7 +110,7 @@ namespace Hada
             }
 
             Coordenada other = (Coordenada)objeto;
-            return Fila == other.Fila && Columna == other.Columna;
+            return this.Fila == other.Fila && this.Columna == other.Columna;
         }
 
     }

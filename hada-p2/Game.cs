@@ -11,6 +11,7 @@ namespace Hada
     internal class Game
     {
         private bool finPartida;
+        public static int tamTablero = 0;
 
         public Game() 
         {
@@ -45,7 +46,7 @@ namespace Hada
             nombres.Add("WILLY");
 
             Console.WriteLine("Introduce el tamaño del tablero");
-            int tamTablero = Int32.Parse(Console.ReadLine());
+            tamTablero = Int32.Parse(Console.ReadLine());
             List<Barco> barcos = new List<Barco>();
             Random rnd = new Random();
             int i = 1;
@@ -75,9 +76,9 @@ namespace Hada
             int columnaPedida;
             Coordenada coordenadaPedida = new Coordenada();
             tablero.eventoFinPartida += cuandoEventoFinPartida; //sin importar si cambia el evento, esto debería funcionar
-            Console.WriteLine(tablero);
             while (true) 
             {
+                Console.WriteLine(tablero);
                 Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                 string respuesta = Console.ReadLine();
                 while (respuesta.Length<3 || !Int32.TryParse(char.ToString(respuesta[0]),out filaPedida) || respuesta[1]!=',' || !Int32.TryParse(char.ToString(respuesta[2]), out columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
@@ -90,7 +91,7 @@ namespace Hada
                     Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                     respuesta = Console.ReadLine();
                 }
-
+                Console.Clear();
                 coordenadaPedida.Columna=columnaPedida;
                 coordenadaPedida.Fila = filaPedida;
                 tablero.Disparar(coordenadaPedida);

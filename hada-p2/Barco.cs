@@ -10,21 +10,18 @@ namespace Hada
     internal class Barco
     {
         //TODO Preguntar sobre la inicializacion de los eventos de barco en la clase Tablero
+        private int TamMaxTablero = Game.tamTablero;
         public event EventHandler<TocadoEventArgs> eventoTocado;
         public event EventHandler<HundidoEventArgs> eventoHundido;
         public Dictionary<Coordenada, string> CoordenadasBarco { get; private set; }
         public string Nombre { get; }
         public int NumDanyos { get; private set; }
-        private TocadoArgs tocadoArgs;
-        private HundidoArgs hundidoArgs;
 
         public Barco(string nombre, int longitud, char orientacion, Coordenada coordenadaInicio)
         {//TODO Pensar si lanzar una excepcion si la suma y resta de la longitud a la posicion del barco hacen que se salga del tablero
             Nombre = nombre;
             NumDanyos = 0;
             CoordenadasBarco = new Dictionary<Coordenada, string>();
-            tocadoArgs = new TocadoArgs();
-            hundidoArgs = new HundidoArgs();
 
             CoordenadasBarco.Add(coordenadaInicio, Nombre);
             switch (orientacion)
@@ -34,7 +31,7 @@ namespace Hada
                     {//Si el barco se saliera del tablero lo ponemos inversamente [0,9] [0,8] [0,7] [0,6] longitud 4
                         for (int i = 1; i < longitud; i++)
                         {
-                            Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, coordenadaInicio.Columna - i);
+                            Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, TamMaxTablero - i);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
                         }
                     }
@@ -53,7 +50,7 @@ namespace Hada
                     {
                         for (int i = 1; i < longitud; i++)
                         {
-                            Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila - i, coordenadaInicio.Columna);
+                            Coordenada nuevaCoordenada = new Coordenada(TamMaxTablero - i, coordenadaInicio.Columna);
                             CoordenadasBarco.Add(nuevaCoordenada, Nombre);
                         }
                     }
@@ -70,13 +67,18 @@ namespace Hada
         }
 
         public void disparo(Coordenada c){
+
             if (CoordenadasBarco.TryGetValue(c, out string etiqueta)){
                 CoordenadasBarco[c] = etiqueta + "_T";
-                tocadoArgs.TocarBarco(CoordenadasBarco[c], c.ToString());
-                
+
+                if (eventoTocado != null)
+                {
+                    eventoTocado(this, new TocadoEventArgs(this.Nombre, c));
+                }
+
                 NumDanyos++;
 
-                if (hundido()) { hundidoArgs.HundirBarco(CoordenadasBarco[c]);}
+                if (hundido()) { eventoHundido(this, new HundidoEventArgs(this.Nombre)); }
             }
         }
         public bool hundido(){
