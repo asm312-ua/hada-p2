@@ -1,6 +1,9 @@
 Mejoras adicionales que hemos metido a la práctica:
 
 - Los barcos se ponen de forma aleatoria en el tablero, comprobando que no se pueda crear 2 barcos en una misma coordenada
-- Aunque por normas de la práctica el tamaño máximo del tablero es 9*9, cambiando el máximo permitido en tablero y 
+- Dependiendo de la longitud del tablero se crean mas o menos barcos, de forma aleatoria
+- La longitud de los barcos es aleatoria y depende del tamaño del tablero
+- Puedes crear un tablero de tamaño infinito, pero realmente ese tamaño está limitado por la cantidad de nombres de los barcos, 
+  puesto que para ciertos valores de tamaño de tablero podrían generarse más barcos que nombres tiene el programa, pero esos casos están comprobados
 
-133*133
+Pd: Hemos perdido los tags por un error al final
