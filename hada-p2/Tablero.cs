@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,14 +93,25 @@ namespace Hada
         {
             if ((c.Columna >= 0 && c.Columna <= TamTablero) && (c.Fila <= TamTablero && c.Fila >= 0))
             {
-                coordenadasDisparadas.Add(new Coordenada(c));
-
-                foreach (var barco in barcos)
+                bool disparoRepetido = false;
+                foreach (var coordenada in coordenadasDisparadas)
                 {
-                    if (barco.CoordenadasBarco.ContainsKey(c))
+                    if (coordenada.Equals(c))
                     {
-                        coordenadasTocadas.Add(new Coordenada(c));
-                        barco.disparo(c);
+                        disparoRepetido = true;
+                    }
+                }
+                coordenadasDisparadas.Add(new Coordenada(c));
+                if (!disparoRepetido)
+                {
+
+                    foreach (var barco in barcos)
+                    {
+                        if (barco.CoordenadasBarco.ContainsKey(c))
+                        {
+                            coordenadasTocadas.Add(new Coordenada(c));
+                            barco.disparo(c);
+                        }
                     }
                 }
             }
