@@ -12,7 +12,7 @@ namespace Hada
     {
         private bool finPartida;
         public static int tamTablero = 0;
-        public static int tamTableroMax = 100;
+        public static int tamTableroMax = 15;
         public static int tamTableroMin = 4;
 
 
@@ -53,7 +53,7 @@ namespace Hada
             {
                 if (tamTablero < tamTableroMin || tamTablero > tamTableroMax)
                 {
-                    Console.WriteLine("Introduce un tamaño de tablero entre 4 y 9");
+                    Console.WriteLine($"Introduce un tamaño de tablero entre {tamTableroMin} y {tamTableroMax}");
                     if (!Int32.TryParse(Console.ReadLine(), out tamTablero))
                     {
                         tamTablero = 0;
@@ -95,7 +95,7 @@ namespace Hada
                 Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                 string respuesta = Console.ReadLine();
                 var respuestaPartida = respuesta.Split(',');
-                while (respuesta.Length != 2 && !Int32.TryParse(respuestaPartida[0], out int parteIzquierda) && !Int32.TryParse(respuestaPartida[1], out int parteDerecha)) //comprueba si las coordenadas se han colocado como se pide
+                while (respuestaPartida.Length != 2 || !Int32.TryParse(respuestaPartida[0], out  filaPedida) || !Int32.TryParse(respuestaPartida[1], out  columnaPedida)) //comprueba si las coordenadas se han colocado como se pide
                 {
                     
                     if (!(respuesta == "") && (respuesta[0] == 's' || respuesta[0] == 'S' || finPartida))
@@ -105,10 +105,11 @@ namespace Hada
                     }
                     Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para salir)");
                     respuesta = Console.ReadLine();
+                    respuestaPartida = respuesta.Split(',');
                 }
                 Console.Clear();
-                coordenadaPedida.Columna= Int32.Parse( respuestaPartida[0]);
-                coordenadaPedida.Fila = Int32.Parse(respuestaPartida[1]);
+                coordenadaPedida.Columna= columnaPedida;
+                coordenadaPedida.Fila = filaPedida;
                 tablero.Disparar(coordenadaPedida);
                 if (finPartida) { Console.WriteLine(tablero); }
             }
