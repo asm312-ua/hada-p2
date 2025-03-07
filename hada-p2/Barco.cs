@@ -9,13 +9,19 @@ namespace Hada
 {
     internal class Barco
     {
-        //TODO Preguntar sobre la inicializacion de los eventos de barco en la clase Tablero
         public event EventHandler<TocadoEventArgs> eventoTocado;
         public event EventHandler<HundidoEventArgs> eventoHundido;
         public Dictionary<Coordenada, string> CoordenadasBarco { get; private set; }
         public string Nombre { get; }
         public int NumDanyos { get; private set; }
 
+        /*
+         * Funcion constuctor de la clase Barco:
+           * Se encarga de crear un barco segun su longitud y orientacion
+           * iniclializa las coordenadas y tiene en cuenta el borde derecho del mapa
+           * el izquierdo ya esta gestionado en coordenadas
+           * Inicializa tambien tanto su diccionario de coordenadas como su numero de daños y nombre.
+         */
         public Barco(string nombre, int longitud, char orientacion, Coordenada coordenadaInicio)
         {
             Nombre = nombre;
@@ -24,7 +30,7 @@ namespace Hada
             switch (orientacion)
             {
                 case 'v':
-                    if (coordenadaInicio.Columna + longitud > Game.tamTablero) //Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Columna + longitud > Game.tamTablero) 
                     {//Si el barco se saliera del tablero lo ponemos inversamente [0,9] [0,8] [0,7] [0,6] longitud 4
                         for (int i = 1; i < longitud; i++)
                         {
@@ -44,7 +50,7 @@ namespace Hada
                     break;
 
                 case 'h':
-                    if (coordenadaInicio.Fila + longitud > Game.tamTablero)//Solo funca cuando el tamaño del tablero es 9
+                    if (coordenadaInicio.Fila + longitud > Game.tamTablero)
                     {
                         for (int i = 1; i < longitud; i++)
                         {
@@ -65,6 +71,10 @@ namespace Hada
             }
         }
 
+        /*
+         * Funcion de Barco que envia un evento de TocadoEventArgs si la coordenada esta en el diccionario de coordenadas del barco
+         * y añade un daño al barco, si el barco esta hundido envia un evento de HundidoEventArgs
+         */
         public void disparo(Coordenada c){
 
             if (CoordenadasBarco.TryGetValue(c, out string etiqueta)){
@@ -80,6 +90,10 @@ namespace Hada
                 if (hundido()) { eventoHundido(this, new HundidoEventArgs(this.Nombre)); }
             }
         }
+
+        /*
+         * Funcion que comprueba si el barco actual esta hundido
+         */
         public bool hundido(){
             foreach (var parteBarco in CoordenadasBarco)
             {
@@ -88,6 +102,10 @@ namespace Hada
             }
             return true;
         }
+
+        /*
+         * Sobreescritura del metodo ToString(), para mostrar la informacion del barco actual
+         */
         override
         public string ToString(){
             string output;
