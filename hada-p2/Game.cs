@@ -14,7 +14,7 @@ namespace Hada
         public static int tamTablero = 0;
         public static int tamTableroMax = 15;
         public static int tamTableroMin = 4;
-
+        private Random rnd = new Random();
 
 
         public Game() 
@@ -41,13 +41,16 @@ namespace Hada
         }
         private void gameLoop() 
         {
-            List<string> nombres = new List<string>();
+            List<string> nombres = new List<string>()
+            {
+                "THOR","LOKI","ODIN","FREYA","BALDER","HEIMDALL","FREYR","TYR","VIDAR","NJORD","ULLR","FORSETI","BRAGI","HELA"
+                ,"FENRIR","JORMUNGANDR","SURTR","FREYJA","SIGYN","SKADI","SIF","IDUN","NANNA","FRIGG","HEIDRUN","GULLINBURSTI"
+                ,"SLEIPNIR","GRANI","HOENIR","MIMIR","RAN","AEGIR","NJOERD","RA","ANUBIS","ISIS","SERKET","HORUS","SETH","BASTET"
+                ,"THOTH","HATHOR","AMON","NEPHTHYS","KUKULKAN","ITZAMNA","IXCHEL","HUNABKU","KINICH","KUK","YUM","KAAX","BOLON"
+                ,"CHAC","IXBALANKE","CABRAKAN"
+            };
 
-            nombres.Add("THOR");
-            nombres.Add("LOKI");
-            nombres.Add("MAYA");
-            nombres.Add("MARY");
-            nombres.Add("WILLY");
+
 
             do
             {
@@ -61,12 +64,12 @@ namespace Hada
                 }
             } while (tamTablero < tamTableroMin || tamTablero > tamTableroMax);
             List<Barco> barcos = new List<Barco>();
-            Random rnd = new Random();
+
             int i = 1;
-            while (i<=3)//i<=3 represena la cantidad de barcos que se van a crear
+            while (i<=numeroRandomBarcos())//i<=3 represena la cantidad de barcos que se van a crear
             {
-                int fila = (rnd.Next(0, tamTablero-i+1));
-                int columna = (rnd.Next(0, tamTablero-i+1));
+                int fila = rnd.Next(0, tamTablero-i+1);
+                int columna = rnd.Next(0, tamTablero-i+1);
                 char direccion;
                 if (rnd.Next(0, 2) == 1)
                 {
@@ -76,7 +79,7 @@ namespace Hada
                 {
                     direccion = 'h';
                 }
-                if (ColocarBarco(new Barco(nombres[i-1], i, direccion, new Coordenada(fila, columna)), barcos))
+                if (ColocarBarco(new Barco(nombres[i-1], longitudRandomBarco(), direccion, new Coordenada(fila, columna)), barcos))
                 {
                     i++;
                 }
@@ -120,6 +123,21 @@ namespace Hada
             finPartida = true;
             
 
+        }
+        private int numeroRandomBarcos()
+        {
+            if (tamTablero <= 4)
+            {
+                return 3;
+            }
+            else
+            {
+                return (int)Math.Round(3 + tamTablero * 0.3);
+            }
+        }
+        private int longitudRandomBarco()
+        {
+            return rnd.Next(0, (int)Math.Round(2 + tamTablero * 0.2));
         }
     }
 }

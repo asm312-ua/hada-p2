@@ -17,12 +17,10 @@ namespace Hada
         public int NumDanyos { get; private set; }
 
         public Barco(string nombre, int longitud, char orientacion, Coordenada coordenadaInicio)
-        {//TODO Pensar si lanzar una excepcion si la suma y resta de la longitud a la posicion del barco hacen que se salga del tablero
+        {
             Nombre = nombre;
             NumDanyos = 0;
             CoordenadasBarco = new Dictionary<Coordenada, string>();
-
-            CoordenadasBarco.Add(coordenadaInicio, Nombre);
             switch (orientacion)
             {
                 case 'v':
@@ -36,6 +34,7 @@ namespace Hada
                     }
                     else
                     {
+                        CoordenadasBarco.Add(coordenadaInicio, Nombre);
                         for (int i = 1; i < longitud; i++)
                         {// En caso contrario lo ponemos normal [0,3] [0,4] [0,5] [0,6] longitud 4
                             Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila, coordenadaInicio.Columna + i);
@@ -55,6 +54,7 @@ namespace Hada
                     }
                     else
                     {
+                        CoordenadasBarco.Add(coordenadaInicio, Nombre);
                         for (int i = 1; i < longitud; i++)
                         {
                             Coordenada nuevaCoordenada = new Coordenada(coordenadaInicio.Fila + i, coordenadaInicio.Columna);
